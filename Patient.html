@@ -7,13 +7,19 @@
 </head>
 <body>
   <h2>Patient Portal</h2>
-
+// This is a simple patient portal for booking appointments with doctors.
   <h3>Register</h3>
   <form id="patientRegisterForm">
-    <input type="text" placeholder="Name" required />
-    <input type="email" placeholder="Email" required />
-    <input type="password" placeholder="Password" required />
-    <input type="number" placeholder="Age" required />
+    <input type="text" name="name" placeholder="Name" required />
+    <input type="email" name="email" placeholder="Email" required />
+    <input type="password" name="password" placeholder="Password" required />
+    <input type="number" name="age" placeholder="Age" min="0" required />
+    <select name="gender" required>
+      <option value="" disabled selected>Select Gender</option>
+      <option value="female">Female</option>
+      <option value="male">Male</option>
+      <option value="other">Other</option>
+    </select>
     <button type="submit">Register</button>
   </form>
 

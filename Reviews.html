@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TravelPro - Reviews</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Montserrat', Arial, sans-serif;
+      background: #f7f9fa;
+      margin: 0;
+      min-height: 100vh;
+    }
+    .nav {
+      background: #fff;
+      box-shadow: 0 4px 24px rgba(33,150,243,0.08);
+      padding: 18px 0;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-bottom: 36px;
+    }
+    .nav a {
+      color: #1976d2;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.05rem;
+      padding: 8px 18px;
+      border-radius: 6px;
+      transition: background 0.2s, color 0.2s;
+    }
+    .nav a.active, .nav a:hover {
+      background: #2196f3;
+      color: #fff;
+    }
+    .container {
+      max-width: 700px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 40px 28px 28px 28px;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(33,150,243,0.10);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h3 {
+      color: #1976d2;
+      margin-bottom: 18px;
+      font-size: 2rem;
+      letter-spacing: 1px;
+    }
+    .reviews-list {
+      width: 100%;
+      margin-bottom: 28px;
+    }
+    .review {
+      background: #f5faff;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(33,150,243,0.07);
+      padding: 18px 18px 14px 18px;
+      margin-bottom: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      position: relative;
+    }
+    .review strong {
+      color: #1976d2;
+      font-size: 1.08rem;
+    }
+    .review-actions {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      display: flex;
+      gap: 8px;
+    }
+    .review-actions button {
+      background: #e3f2fd;
+      border: none;
+      color: #1976d2;
+      border-radius: 4px;
+      padding: 3px 10px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .review-actions button:hover {
+      background: #1976d2;
+      color: #fff;
+    }
+    form {
+      width: 100%;
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    label {
+      font-weight: 500;
+      color: #333;
+      margin-bottom: 2px;
+    }
+    input[type="text"] {
+      padding: 10px 12px;
+      border: 1px solid #bdbdbd;
+      border-radius: 6px;
+      font-size: 1rem;
+      background: #f5faff;
+      transition: border 0.2s;
+    }
+    input[type="text"]:focus {
+      border: 1.5px solid #1976d2;
+      outline: none;
+      background: #e3f2fd;
+    }
+    button[type="submit"] {
+      background: linear-gradient(90deg, #1976d2, #2196f3);
+      color: #fff;
+      border: none;
+      padding: 11px 0;
+      border-radius: 7px;
+      font-size: 1.08rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 6px;
+      box-shadow: 0 2px 8px rgba(33,150,243,0.08);
+      transition: background 0.2s;
+    }
+    button[type="submit"]:hover {
+      background: linear-gradient(90deg, #2196f3, #1976d2);
+    }
+    @media (max-width: 700px) {
+      .container { padding: 18px 2vw 18px 2vw; }
+    }
+  </style>
+</head>
+<body>
+  <div class="nav">
+    <a href="Home.html">Home</a>
+    <a href="Dashboard.html">Dashboard</a>
+    <a href="Destinations.html">Destinations</a>
+    <a href="Reviews.html" class="active">Reviews</a>
+    <a href="Chatbot.html">Chatbot</a>
+    <a href="Support.html">Support</a>
+    <a href="Settings.html">Settings</a>
+    <a href="Profile.html">Profile</a>
+    <a href="Logout.html">Logout</a>
+  </div>
+  <div class="container">
+    <h3>Traveler Reviews</h3>
+    <div id="reviews-list" class="reviews-list"></div>
+    <form id="add-review-form" autocomplete="off">
+      <div class="form-group">
+        <label for="reviewer-name">Name:</label>
+        <input id="reviewer-name" type="text" required placeholder="Your name">
+      </div>
+      <div class="form-group">
+        <label for="review-text">Review:</label>
+        <input id="review-text" type="text" required placeholder="Share your experience">
+      </div>
+      <button type="submit">Add Review</button>
+    </form>
+  </div>
+  <script>
+    // Redirect to login if not logged in
+    if(localStorage.getItem('travelpro_logged_in') !== 'true') {
+      window.location.href = "Login.html";
+    }
+
+    // CRUD for Traveler Reviews (frontend only, can be connected to backend)
+    let reviews = [
+      { name: "Priya S", text: "Booking my honeymoon was so easy and the support was fantastic!" },
+      { name: "John D", text: "Loved the personalized recommendations. Will use again!" },
+      { name: "Mei L", text: "The chatbot helped me plan my trip in minutes. Amazing!" }
+    ];
+
+    function renderReviews() {
+      const reviewsList = document.getElementById('reviews-list');
+      reviewsList.innerHTML = '';
+      reviews.forEach((review, idx) => {
+        reviewsList.innerHTML += `
+          <div class="review" data-idx="${idx}">
+            <strong>${review.name}:</strong>
+            <span class="review-text">${review.text}</span>
+            <div class="review-actions">
+              <button onclick="editReview(${idx})">Edit</button>
+              <button onclick="deleteReview(${idx})">Delete</button>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    function addReview(name, text) {
+      reviews.push({ name, text });
+      renderReviews();
+    }
+
+    function deleteReview(idx) {
+      reviews.splice(idx, 1);
+      renderReviews();
+    }
+
+    function editReview(idx) {
+      const review = reviews[idx];
+      const newText = prompt("Edit your review:", review.text);
+      if (newText !== null && newText.trim() !== "") {
+        reviews[idx].text = newText.trim();
+        renderReviews();
+      }
+    }
+
+    // Expose edit/delete to global scope for inline onclick
+    window.editReview = editReview;
+    window.deleteReview = deleteReview;
+
+    document.getElementById('add-review-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('reviewer-name').value.trim();
+      const text = document.getElementById('review-text').value.trim();
+      if (name && text) {
+        addReview(name, text);
+        this.reset();
+      }
+    });
+
+    // Initial render
+    renderReviews();
+  </script>
+</body>
+</html>

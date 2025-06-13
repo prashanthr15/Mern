@@ -1,20 +1,217 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Hospital Management System</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <meta charset="UTF-8">
+  <title>TravelPro - Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google Fonts for modern look -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1976d2;
+      --accent: #2196f3;
+      --bg: #f7f9fa;
+      --white: #fff;
+      --shadow: 0 4px 24px rgba(33, 150, 243, 0.08);
+      --radius: 14px;
+    }
+    body {
+      font-family: 'Montserrat', Arial, sans-serif;
+      margin: 0;
+      background: var(--bg);
+      color: #222;
+    }
+    header {
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      color: var(--white);
+      padding: 40px 0 30px 0;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+    header h1 {
+      margin: 0 0 10px 0;
+      font-size: 2.5rem;
+      letter-spacing: 2px;
+    }
+    nav {
+      background: var(--white);
+      box-shadow: var(--shadow);
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      padding: 18px 0;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    nav a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.05rem;
+      padding: 8px 18px;
+      border-radius: 6px;
+      transition: background 0.2s, color 0.2s;
+    }
+    nav a:hover, nav a.active {
+      background: var(--accent);
+      color: var(--white);
+    }
+    .container {
+      max-width: 1100px;
+      margin: 40px auto;
+      background: var(--white);
+      padding: 40px 30px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 24px;
+      margin-bottom: 10px;
+    }
+    .stat {
+      background: linear-gradient(135deg, #e3f2fd 60%, #bbdefb 100%);
+      padding: 28px 0;
+      border-radius: var(--radius);
+      text-align: center;
+      box-shadow: 0 2px 8px #0001;
+      transition: transform 0.15s;
+    }
+    .stat:hover {
+      transform: translateY(-4px) scale(1.03);
+    }
+    .stat h4 {
+      margin: 0 0 8px 0;
+      font-size: 1.1rem;
+      color: var(--primary);
+      letter-spacing: 1px;
+    }
+    .stat p {
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 0;
+      color: #222;
+    }
+    .content-section, .reviews-section, .chatbot-section {
+      margin-bottom: 0;
+    }
+    .content-section h2, .content-section h3, .reviews-section h3, .chatbot-section h3 {
+      color: var(--primary);
+      margin-bottom: 18px;
+      letter-spacing: 1px;
+    }
+    .content-section ul {
+      padding-left: 20px;
+      margin: 0;
+    }
+    .review {
+      background: #f1f8e9;
+      padding: 18px 20px;
+      border-radius: 8px;
+      margin-bottom: 14px;
+      box-shadow: 0 1px 4px #0001;
+      font-size: 1.05rem;
+    }
+    .form-group {
+      margin-bottom: 18px;
+    }
+    label {
+      display: block;
+      margin-bottom: 7px;
+      font-weight: 500;
+      color: #333;
+    }
+    input[type="text"], input[type="password"], input[type="email"] {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #bdbdbd;
+      border-radius: 6px;
+      font-size: 1rem;
+      background: #f5faff;
+      transition: border 0.2s;
+    }
+    input:focus {
+      border: 1.5px solid var(--primary);
+      outline: none;
+    }
+    button {
+      background: var(--primary);
+      color: var(--white);
+      border: none;
+      padding: 11px 28px;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 5px;
+    }
+    button:hover {
+      background: var(--accent);
+    }
+    .chatbot-box {
+      background: #fffde7;
+      border: 1.5px solid #ffe082;
+      border-radius: 8px;
+      padding: 22px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: 0 1px 4px #0001;
+    }
+    .chatbot-messages {
+      min-height: 40px;
+      margin-bottom: 8px;
+      font-size: 1rem;
+      color: #444;
+    }
+    .chatbot-input-row {
+      display: flex;
+      gap: 10px;
+    }
+    .chatbot-input-row input[type="text"] {
+      flex: 1;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ffe082;
+      background: #fffde7;
+    }
+    @media (max-width: 700px) {
+      .container { padding: 18px 5vw; }
+      .dashboard { grid-template-columns: 1fr 1fr; }
+      nav { gap: 10px; font-size: 0.98rem; }
+    }
+    @media (max-width: 500px) {
+      .dashboard { grid-template-columns: 1fr; }
+      header h1 { font-size: 1.5rem; }
+    }
+  </style>
 </head>
 <body>
-    <!-- pushing to git -->
-     <!-- pushing 2 -->
-      <!-- pushing 3 -->
-<!--pulling 1   -->
-  <h1>Hospital Management System</h1>
-  <div class="nav">
-    <a href="patient.html">Patient</a>
-    <a href="doctor.html">Doctor</a>
-    <a href="admin.html">Admin</a>
+  <header>
+    <h1>TravelPro</h1>
+    <p>Your one-stop travel solution</p>
+  </header>
+  <nav>
+    <a href="Home.html" class="active">Home</a>
+    <a href="Login.html">Login</a>
+    <a href="Register.html">Register</a>
+    <a href="Dashboard.html">Dashboard</a>
+    <a href="Destinations.html">Destinations</a>
+    <a href="Reviews.html">Reviews</a>
+    <a href="Chatbot.html">Chatbot</a>
+    <a href="Logout.html">Logout</a>
+  </nav>
+  <div class="container">
+    <div class="content-section">
+      <h2>Welcome to TravelPro</h2>
+      <p>Discover, plan, and book your next adventure with ease. Join thousands of happy travelers!</p>
+    </div>
   </div>
 </body>
 </html>

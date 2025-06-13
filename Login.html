@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TravelPro - Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Montserrat', Arial, sans-serif; background: #f7f9fa; }
+    .container { max-width: 400px; margin: 60px auto; background: #fff; padding: 32px 24px; border-radius: 14px; box-shadow: 0 4px 24px rgba(33,150,243,0.08);}
+    h2 { color: #1976d2; }
+    .form-group { margin-bottom: 18px; }
+    label { display: block; margin-bottom: 7px; font-weight: 500; color: #333; }
+    input[type="text"], input[type="password"] { width: 100%; padding: 10px 12px; border: 1px solid #bdbdbd; border-radius: 6px; font-size: 1rem; background: #f5faff;}
+    button { background: #1976d2; color: #fff; border: none; padding: 11px 28px; border-radius: 6px; font-size: 1rem; font-weight: 600; cursor: pointer; }
+    button:hover { background: #2196f3; }
+    .nav { margin-bottom: 24px; }
+    .nav a { margin-right: 18px; color: #1976d2; text-decoration: none; font-weight: 700; }
+    .nav a.active { color: #2196f3; }
+  </style>
+</head>
+<body>
+  <div class="nav">
+    <a href="Home.html">Home</a>
+    <a href="Login.html" class="active">Login</a>
+    <a href="Register.html">Register</a>
+  </div>
+  <div class="container">
+    <h2>Login</h2>
+    <form id="login-form">
+      <div class="form-group">
+        <label for="username">Username or Email</label>
+        <input type="text" id="username" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" required>
+      </div>
+      <button type="submit">Login</button>
+    </form>
+    <div id="login-error" style="color:red; margin-top:10px;"></div>
+  </div>
+  <script>
+    document.getElementById('login-form').onsubmit = async function(e) {
+      e.preventDefault();
+      // Replace with your backend login API call
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      // Example: simulate login
+      if(username === "user" && password === "pass") {
+        localStorage.setItem('travelpro_logged_in', 'true');
+        window.location.href = "Dashboard.html";
+      } else {
+        document.getElementById('login-error').innerText = "Invalid credentials";
+      }
+    }
+  </script>
+</body>
+</html>

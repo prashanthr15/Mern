@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TravelPro - Chatbot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', Arial, sans-serif;
+            background: #f7f9fa;
+            margin: 0;
+            min-height: 100vh;
+        }
+        .nav {
+            background: #fff;
+            box-shadow: 0 4px 24px rgba(33,150,243,0.08);
+            padding: 18px 0;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 36px;
+        }
+        .nav a {
+            color: #1976d2;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.05rem;
+            padding: 8px 18px;
+            border-radius: 6px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .nav a.active, .nav a:hover {
+            background: #2196f3;
+            color: #fff;
+        }
+        .container {
+            max-width: 500px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 36px 24px 24px 24px;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(33,150,243,0.10);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h2 {
+            color: #1976d2;
+            margin-bottom: 18px;
+            letter-spacing: 1px;
+            font-size: 2rem;
+        }
+        .chatbot-box {
+            width: 100%;
+            background: #f5faff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(33,150,243,0.07);
+            padding: 18px 12px 12px 12px;
+            margin-bottom: 18px;
+            min-height: 220px;
+            max-height: 320px;
+            overflow-y: auto;
+            font-size: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .chat-msg {
+            margin: 0;
+            padding: 0;
+            line-height: 1.5;
+        }
+        .chat-msg.user {
+            text-align: right;
+            color: #1976d2;
+            font-weight: 600;
+        }
+        .chat-msg.bot {
+            text-align: left;
+            color: #333;
+        }
+        .chatbot-form {
+            width: 100%;
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .chatbot-input {
+            flex: 1;
+            padding: 10px 12px;
+            border: 1px solid #bdbdbd;
+            border-radius: 6px;
+            font-size: 1rem;
+            background: #f5faff;
+            transition: border 0.2s;
+        }
+        .chatbot-input:focus {
+            border: 1.5px solid #1976d2;
+            outline: none;
+            background: #e3f2fd;
+        }
+        .chatbot-send {
+            background: linear-gradient(90deg, #1976d2, #2196f3);
+            color: #fff;
+            border: none;
+            padding: 0 22px;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .chatbot-send:hover {
+            background: linear-gradient(90deg, #2196f3, #1976d2);
+        }
+        @media (max-width: 600px) {
+            .container { padding: 18px 2vw 18px 2vw; }
+            .chatbot-box { min-height: 140px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <a href="Home.html">Home</a>
+        <a href="Dashboard.html">Dashboard</a>
+        <a href="Destinations.html">Destinations</a>
+        <a href="Reviews.html">Reviews</a>
+        <a href="ChatBot.html" class="active">Chatbot</a>
+        <a href="Support.html">Support</a>
+        <a href="Settings.html">Settings</a>
+        <a href="Profile.html">Profile</a>
+        <a href="Logout.html">Logout</a>
+    </div>
+    <div class="container">
+        <h2>TravelPro Chatbot</h2>
+        <div class="chatbot-box" id="chatbot-messages">
+            <div class="chat-msg bot">👋 Hi! I'm your TravelPro assistant. Ask me anything about destinations, bookings, or travel tips!</div>
+        </div>
+        <form class="chatbot-form" id="chatbot-form" autocomplete="off">
+            <input class="chatbot-input" id="chatbot-input" type="text" placeholder="Type your message..." required>
+            <button class="chatbot-send" type="submit">Send</button>
+        </form>
+    </div>
+    <script>
+        // Redirect to login if not logged in
+        if(localStorage.getItem('travelpro_logged_in') !== 'true') {
+            window.location.href = "Login.html";
+        }
+
+        const chatbotForm = document.getElementById('chatbot-form');
+        const chatbotInput = document.getElementById('chatbot-input');
+        const chatbotMessages = document.getElementById('chatbot-messages');
+
+        function addMessage(text, sender) {
+            const msg = document.createElement('div');
+            msg.className = 'chat-msg ' + sender;
+            msg.textContent = text;
+            chatbotMessages.appendChild(msg);
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        }
+
+        function getBotReply(userMsg) {
+            const msg = userMsg.toLowerCase();
+            if (msg.includes('book')) return "You can book trips from the Destinations page. Need help choosing?";
+            if (msg.includes('recommend')) return "Paris, Kyoto, and Maldives are trending now! Where would you like to go?";
+            if (msg.includes('hello') || msg.includes('hi')) return "Hello! How can I assist you today?";
+            if (msg.includes('support')) return "For support, visit our Support page or ask your question here!";
+            if (msg.includes('review')) return "You can read and write reviews on the Reviews page.";
+            if (msg.includes('profile')) return "You can view and edit your profile on the Profile page.";
+            if (msg.includes('settings')) return "You can manage your preferences on the Settings page.";
+            if (msg.includes('help')) return "Sure! You can ask about destinations, bookings, reviews, or travel tips.";
+            if (msg.includes('thank')) return "You're welcome! Let me know if you have more questions.";
+            return "I'm here to help you plan your trip! Try asking about destinations, bookings, or travel tips.";
+        }
+
+        chatbotForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const userMsg = chatbotInput.value.trim();
+            if (!userMsg) return;
+            addMessage(userMsg, 'user');
+            setTimeout(() => {
+                const reply = getBotReply(userMsg);
+                addMessage(reply, 'bot');
+            }, 600);
+            chatbotInput.value = '';
+        });
+
+        // Allow pressing Enter to send message (mobile fix)
+        chatbotInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                chatbotForm.dispatchEvent(new Event('submit'));
+            }
+        });
+    </script>
+</body>
+</html>
